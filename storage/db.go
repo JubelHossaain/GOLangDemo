@@ -27,5 +27,30 @@ func InitDB() {
 		log.Fatalf("Error pinging the database: %v", err)
 	}
 
+	 // Create users table
+	 _, err = DB.Exec(`
+	 CREATE TABLE IF NOT EXISTS users (
+		 id SERIAL PRIMARY KEY,
+		 username TEXT NOT NULL UNIQUE,
+		 password TEXT NOT NULL
+	 );
+ `)
+ if err != nil {
+	 log.Fatal("Error creating users table:", err)
+ }
+
+ // Create messages table with foreign key
+ _, err = DB.Exec(`
+	 CREATE TABLE IF NOT EXISTS messages (
+		 id SERIAL PRIMARY KEY,
+		 user_id INTEGER NOT NULL,
+		 content TEXT NOT NULL,
+		 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	 );
+ `)
+ if err != nil {
+	 log.Fatal("Error creating messages table:", err)
+ }
+
 	fmt.Println("Connected to the database successfully!")
 }
