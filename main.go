@@ -28,5 +28,5 @@ func main() {
 
 	// Start the server
 	fmt.Println("Server is running on http://localhost:6060")
-	http.ListenAndServe(":6060", nil)
+	http.ListenAndServe(":80", nil)
 }
